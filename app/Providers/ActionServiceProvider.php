@@ -21,6 +21,7 @@ class ActionServiceProvider extends ServiceProvider
         Contracts\BusinessCategory::class => Actions\BusinessCategory\CreateAction::class,
         Contracts\BusinessSchedule::class => Actions\BusinessSchedule\CreateAction::class,
         Contracts\GetAllCities::class => Actions\City\GetAllAction::class,
+        Contracts\BusinessBonus::class => Actions\BusinessBonus\CreateAction::class,
 
 //        EMPLOYEES
         Contracts\AddEmployee::class => Actions\Employee\CreateAction::class,

@@ -20,6 +20,7 @@ class RepositoryServiceProvider extends ServiceProvider
         Repositories\CategoryRepositoryInterface::class => Repositories\Eloquent\CategoryRepository::class,
         Repositories\BusinessCategoryRepositoryInterface::class => Repositories\Eloquent\BusinessCategoryRepository::class,
         Repositories\BusinessScheduleRepositoryInterface::class => Repositories\Eloquent\BusinessScheduleRepository::class,
+        Repositories\BusinessBonusRepositoryInterface::class => Repositories\Eloquent\BusinessBonusRepository::class,
 
 //        EMPLOYEES
 

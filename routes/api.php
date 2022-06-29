@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\User\Account\ProfileController;
+use App\Http\Controllers\User\Business\BonusController;
 use App\Http\Controllers\User\Business\BusinessInfoController;
 use App\Http\Controllers\User\Business\CategoryController;
 use App\Http\Controllers\User\Business\CityController;
@@ -44,6 +45,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/create-schedule', [ScheduleController::class, 'addSchedule']);
         Route::get('/get-info', [BusinessInfoController::class, 'index']);
         Route::post('/create-employee', [EmployeeController::class, 'create']);
+        Route::post('/create-bonus', [BonusController::class, 'createBonus']);
     });
 
 //    Employee

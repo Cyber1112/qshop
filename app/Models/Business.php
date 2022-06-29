@@ -56,6 +56,11 @@ class Business extends Model
         return $this->morphMany('App\Models\Image', 'imageable');
     }
 
+    public function bonus(): HasOne
+    {
+        return $this->HasOne(BusinessBonusOption::class);
+    }
+
 
 }
 

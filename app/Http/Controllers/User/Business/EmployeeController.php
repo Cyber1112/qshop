@@ -20,15 +20,58 @@ class EmployeeController extends Controller
     }
 
     public function create(Request $request){
+        $user = Auth::user();
 
-        app(Contracts\AddEmployee::class)->execute(
+        if ( $user->hasRole('employee') ){
+
+            if ( $user->hasPermissionTo('create employee') ){
+                $this->setEmployee(
+                    $request->phone_number,
+                    $request->name,
+                    $request->position,
+                    Hash::make($request->password),
+                    $request->permissions,
+                    $this->getBusinessIdByEmployee($user)
+                );
+
+                return response()->noContent();
+            }
+            return response()->json(["You are not given permission to add employee"], 401);
+        }
+
+        $this->setEmployee(
             $request->phone_number,
             $request->name,
             $request->position,
             Hash::make($request->password),
-            $request->permissions
+            $request->permissions,
+            $this->getBusinessIdByBusiness($user)
         );
 
+        return response()->noContent();
+    }
+
+    public function setEmployee($phone_number, $name, $position, $password, $permissions, $user){
+        app(Contracts\AddEmployee::class)->execute(
+            $phone_number,
+            $name,
+            $position,
+            $password,
+            $permissions,
+            $user
+        );
+    }
+
+    public function getBusinessIdByEmployee($user){
+        return app(Tasks\Employee\FindTask::class)->run(
+            $user->id
+        )->business_id;
+    }
+
+    public function getBusinessIdByBusiness($user){
+        return app(Tasks\Business\FindTask::class)->run(
+            $user->id
+        )->id;
     }
 
 }

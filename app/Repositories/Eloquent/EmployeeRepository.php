@@ -27,4 +27,5 @@ class EmployeeRepository extends BaseRepository implements EmployeeRepositoryInt
             ->withCount($relations_count)
             ->first();
     }
+
 }

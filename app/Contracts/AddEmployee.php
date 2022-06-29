@@ -9,7 +9,8 @@ interface AddEmployee{
         string $name,
         string $position,
         string $password,
-        array $permissions
+        array $permissions,
+        int $business_id
     ): void;
 
 }

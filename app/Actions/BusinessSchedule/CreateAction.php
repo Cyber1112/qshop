@@ -3,17 +3,13 @@
 namespace App\Actions\BusinessSchedule;
 
 use App\Contracts\BusinessSchedule;
-use App\Dto\BusinessSchedule\CreateDto;
-use App\Models\Business;
-use App\Models\User;
 use App\Tasks;
-use Illuminate\Support\Facades\Auth;
 
 class CreateAction implements BusinessSchedule{
 
-    public function execute($request): void
+    public function execute($request, int $business_id): void
     {
-        $this->delete();
+        $this->delete($business_id);
 
         $counter = 0;
 
@@ -24,7 +20,7 @@ class CreateAction implements BusinessSchedule{
                     'working_day' => $data[$counter]["working_day"],
                     'work_start' => $data[$counter]["work_start"],
                     'work_end' => $data[$counter]["work_end"],
-                    "business_id" => $this->getBusinessId()->id
+                    "business_id" => $business_id
                 ]
             );
 
@@ -32,17 +28,10 @@ class CreateAction implements BusinessSchedule{
         }
     }
 
-    public function getBusinessId(){
-        return app(Tasks\Business\FindTask::class)->run(
-            Auth::user()->id
-        );
-    }
-
-
-    public function delete(): void
+    public function delete($business_id): void
     {
         app(Tasks\BusinessSchedule\DeleteTask::class)->run(
-            $this->getBusinessId()->id
+            $business_id
         );
     }
 }

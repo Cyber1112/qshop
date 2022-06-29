@@ -13,7 +13,8 @@ class CreateAction implements AddEmployee{
         string $name,
         string $position,
         string $password,
-        array $permissions
+        array $permissions,
+        int $business_id
     ): void
     {
         $this->createUser([
@@ -26,10 +27,11 @@ class CreateAction implements AddEmployee{
 
         $this->createEmployee([
             "position" => $position,
-            "business_id" => $this->getBusinessId()->id,
+            "business_id" => $business_id,
             "user_id" => $user->id
         ]);
 
+        $this->assignRole($user, 'employee');
         $this->assignPermissionsToUser($user, $permissions);
 
     }
@@ -53,15 +55,12 @@ class CreateAction implements AddEmployee{
         );
     }
 
+    public function assignRole($user, $role){
+        app(Tasks\User\AssignRoleTask::class)->run($user, $role);
+    }
+
     public function getUserId($phone_number){
         return app(Tasks\User\FindByPhoneTask::class)->run($phone_number);
     }
-
-    public function getBusinessId(){
-        return app(Tasks\Business\FindTask::class)->run(
-            Auth::user()->id
-        );
-    }
-
 
 }

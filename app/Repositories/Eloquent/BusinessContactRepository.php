@@ -15,4 +15,5 @@ class  BusinessContactRepository extends BaseRepository implements BusinessConta
         $this->model = $model;
     }
 
+
 }

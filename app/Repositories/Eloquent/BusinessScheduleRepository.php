@@ -11,15 +11,4 @@ class BusinessScheduleRepository extends BaseRepository implements BusinessSched
         $this->model = $model;
     }
 
-    /**
-     * @param string $business_id
-     * @return bool|null
-     */
-    public function deleteByBusinessId(string $business_id): ?bool
-    {
-        return $this->model
-            ->query()
-            ->where("business_id", $business_id)
-            ->delete();
-    }
 }

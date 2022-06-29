@@ -12,4 +12,5 @@ class BusinessDescriptionRepository extends BaseRepository implements BusinessDe
         $this->model = $model;
     }
 
+
 }

@@ -114,6 +114,10 @@ interface EloquentRepositoryInterface{
      */
     public function getAllCount(): int;
 
-
+    /**
+     * @param string $business_id
+     * @return bool|null
+     */
+    public function deleteByBusinessId(string $business_id): ?bool;
 
 }

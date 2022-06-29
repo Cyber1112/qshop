@@ -14,16 +14,17 @@ class CreateAction implements BusinessDescription
      * @param CreateDto $dto
      * @return void
      */
-    public function execute(CreateDto $dto): void
+    public function execute(CreateDto $dto, $business_id): void
     {
+        $this->delete($business_id);
+
         app(Tasks\BusinessDescription\CreateTask::class)->run(
-            $dto->toArray() + ['business_id' => $this->getBusinessId()->id]
+            $dto->toArray() + ['business_id' => $business_id]
         );
     }
 
-    public function getBusinessId(){
-        return app(Tasks\Business\FindTask::class)->run(
-            Auth::user()->id
-        );
+    public function delete($business_id): void{
+        app(Tasks\BusinessDescription\DeleteTask::class)->run($business_id);
     }
+
 }

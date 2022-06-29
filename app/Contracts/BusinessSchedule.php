@@ -10,6 +10,6 @@ interface BusinessSchedule{
 //     * @param array $request
 //     * @return void
 //     */
-    public function execute($request): void;
+    public function execute($request, int $business_id): void;
 
 }

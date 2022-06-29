@@ -8,10 +8,10 @@ class AssignRoleTask{
 
     /**
      * @param User $user
-     * @param $roles
+     * @param $role
      * @return void
      */
-    public function run(User $user, $roles){
-        $user->assignRole($roles);
+    public function run(User $user, $role){
+        $user->assignRole($role);
     }
 }

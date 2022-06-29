@@ -167,4 +167,16 @@ class BaseRepository implements \App\Repositories\EloquentRepositoryInterface{
             ->query()
             ->count();
     }
+
+    /**
+     * @param string $business_id
+     * @return bool|null
+     */
+    public function deleteByBusinessId(string $business_id): ?bool
+    {
+        return $this->model
+            ->query()
+            ->where("business_id", $business_id)
+            ->delete();
+    }
 }

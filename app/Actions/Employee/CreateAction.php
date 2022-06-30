@@ -3,36 +3,32 @@
 namespace App\Actions\Employee;
 
 use App\Contracts\AddEmployee;
+use App\Dto\BusinessEmployee\CreateDto;
 use App\Tasks;
-use Illuminate\Support\Facades\Auth;
 
 
 class CreateAction implements AddEmployee{
     public function execute(
-        string $phone_number,
-        string $name,
-        string $position,
-        string $password,
-        array $permissions,
+        CreateDto $dto,
         int $business_id
     ): void
     {
         $this->createUser([
-            "phone_number" => $phone_number,
-            "name" => $name,
-            "password" => $password
+            "phone_number" => $dto->phone_number,
+            "name" => $dto->name,
+            "password" => $dto->password
         ]);
 
-        $user = $this->getUserId($phone_number);
+        $user = $this->getUserId($dto->phone_number);
 
         $this->createEmployee([
-            "position" => $position,
+            "position" => $dto->position,
             "business_id" => $business_id,
             "user_id" => $user->id
         ]);
 
         $this->assignRole($user, 'employee');
-        $this->assignPermissionsToUser($user, $permissions);
+        $this->assignPermissionsToUser($user, $dto->permissions);
 
     }
 

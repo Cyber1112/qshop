@@ -3,21 +3,17 @@
 namespace App\Actions\BusinessBonus;
 
 use App\Contracts\BusinessBonus;
+use App\Dto\BusinessBonus\CreateDto;
 use App\Tasks;
 
 class CreateAction implements BusinessBonus{
 
-    public function execute(int $business_id, int $bonus_amount, int $activation_bonus_period = 0, int $deactivation_bonus_period = null): void
+    public function execute(int $business_id, CreateDto $dto): void
     {
         $this->delete($business_id);
 
         app(Tasks\BusinessBonusOption\CreateTask::class)->run(
-            [
-                'bonus_amount' => $bonus_amount,
-                'activation_bonus_period' => $activation_bonus_period,
-                'deactivation_bonus_period' => $deactivation_bonus_period,
-                'business_id' => $business_id,
-            ]
+            $dto->toArray() + ['business_id' => $business_id]
         );
 
     }

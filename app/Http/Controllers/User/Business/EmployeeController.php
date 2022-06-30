@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Business;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BusinessEmployee\CreateRequest;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Contracts;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Tasks;
 use App\Http\Resources;
+use App\Dto;
 
 class EmployeeController extends Controller
 {
@@ -19,18 +21,14 @@ class EmployeeController extends Controller
         return Resources\User\Employee\Account\ProfileResource::collection(Employee::find($employee));
     }
 
-    public function create(Request $request){
+    public function create(CreateRequest $request){
         $user = Auth::user();
 
         if ( $user->hasRole('employee') ){
 
             if ( $user->hasPermissionTo('create employee') ){
                 $this->setEmployee(
-                    $request->phone_number,
-                    $request->name,
-                    $request->position,
-                    Hash::make($request->password),
-                    $request->permissions,
+                    Dto\BusinessEmployee\CreateDtoFactory::fromRequest($request),
                     $this->getBusinessIdByEmployee($user)
                 );
 
@@ -39,25 +37,18 @@ class EmployeeController extends Controller
             return response()->json(["You are not given permission to add employee"], 401);
         }
 
-        $this->setEmployee(
-            $request->phone_number,
-            $request->name,
-            $request->position,
-            Hash::make($request->password),
-            $request->permissions,
+//        BUSINESS
+        return $this->setEmployee(
+            Dto\BusinessEmployee\CreateDtoFactory::fromRequest($request),
             $this->getBusinessIdByBusiness($user)
         );
 
-        return response()->noContent();
+//        return response()->noContent();
     }
 
-    public function setEmployee($phone_number, $name, $position, $password, $permissions, $user){
-        app(Contracts\AddEmployee::class)->execute(
-            $phone_number,
-            $name,
-            $position,
-            $password,
-            $permissions,
+    public function setEmployee($dto, $user){
+        return app(Contracts\AddEmployee::class)->execute(
+            $dto,
             $user
         );
     }

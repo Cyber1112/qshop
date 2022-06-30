@@ -2,14 +2,12 @@
 
 namespace App\Contracts;
 
+use App\Dto\BusinessEmployee\CreateDto;
+
 interface AddEmployee{
 
     public function execute(
-        string $phone_number,
-        string $name,
-        string $position,
-        string $password,
-        array $permissions,
+        CreateDto $dto,
         int $business_id
     ): void;
 

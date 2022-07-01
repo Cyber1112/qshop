@@ -21,4 +21,29 @@ interface BusinessRepositoryInterface extends EloquentRepositoryInterface{
         array $relations_count = []
     ): ?Business;
 
+    /**
+     * @param int $business_id
+     * @param int $purchase_amount
+     * @return int|null
+     */
+    public function decrementBalance
+    (
+        int $business_id,
+        int $purchase_amount
+    ): ?int;
+
+    /**
+     * @param int $business_id
+     * @param int $purchase_amount
+     * @return int|null
+     */
+    public function incrementBalance
+    (
+        int $business_id,
+        int $purchase_amount
+    ): ?int;
+
+
+
+
 }

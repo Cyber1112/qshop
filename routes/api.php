@@ -8,6 +8,8 @@ use App\Http\Controllers\User\Business\CityController;
 use App\Http\Controllers\User\Business\DescriptionController;
 use App\Http\Controllers\User\Business\EmployeeController;
 use App\Http\Controllers\User\Business\ScheduleController;
+use App\Http\Controllers\User\Business\TransactionHistoryCommentController;
+use App\Http\Controllers\User\Business\TransactionHistoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
@@ -46,6 +48,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/get-info', [BusinessInfoController::class, 'index']);
         Route::post('/create-employee', [EmployeeController::class, 'create']);
         Route::post('/create-bonus', [BonusController::class, 'createBonus']);
+
+        Route::prefix('transaction')->group(function(){
+            Route::post('/create-transaction', [TransactionHistoryController::class, 'createTransaction']);
+            Route::post('/write-off-transaction', [TransactionHistoryController::class, 'writeOffTransaction']);
+            Route::post('/create-comment/{transaction}', [TransactionHistoryCommentController::class, 'create']);
+        });
     });
 
 //    Employee

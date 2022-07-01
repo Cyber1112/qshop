@@ -23,6 +23,11 @@ class ActionServiceProvider extends ServiceProvider
         Contracts\GetAllCities::class => Actions\City\GetAllAction::class,
         Contracts\BusinessBonus::class => Actions\BusinessBonus\CreateAction::class,
 
+//        TRANSACTION
+        Contracts\Transaction::class => Actions\BusinessTransactionHistory\CreateAction::class,
+        Contracts\TransactionComments::class => Actions\BusinessTransactionHistoryComments\CreateAction::class,
+        Contracts\WriteOffBonusFromClient::class => Actions\BusinessBonus\WriteOffAction::class,
+
 //        EMPLOYEES
         Contracts\AddEmployee::class => Actions\Employee\CreateAction::class,
 

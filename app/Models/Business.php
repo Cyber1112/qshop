@@ -10,6 +10,7 @@ use App\Traits\Business\HasDescription;
 use App\Traits\Business\HasEmployee;
 use App\Traits\Business\HasImages;
 use App\Traits\Business\HasSchedule;
+use App\Traits\Business\HasTransactions;
 use App\Traits\Business\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,13 +18,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Business extends Model
 {
-    use HasFactory, HasUser, HasDescription, HasContact, HasCity, HasSchedule, HasCategory, HasBonus, HasEmployee, HasImages;
+    use HasFactory, HasUser, HasDescription,
+        HasContact, HasCity, HasSchedule,
+        HasCategory, HasBonus, HasEmployee,
+        HasImages, HasTransactions;
 
     protected $fillable = [
         'business_name',
         'balance',
         'user_id'
     ];
+
+
 
 }
 

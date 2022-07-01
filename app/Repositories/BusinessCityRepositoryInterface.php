@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
-interface BusinessCityRepositoryInterface extends \App\Repositories\EloquentRepositoryInterface{
+interface BusinessCityRepositoryInterface extends EloquentRepositoryInterface
+{
 
 }

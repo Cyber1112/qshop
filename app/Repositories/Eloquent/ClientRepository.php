@@ -2,12 +2,12 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\Business;
-use App\Repositories\BusinessRepositoryInterface;
+use App\Models\Client;
+use App\Repositories\ClientRepositoryInterface;
 
-class BusinessRepository extends BaseRepository implements BusinessRepositoryInterface{
+class ClientRepository extends BaseRepository implements ClientRepositoryInterface{
 
-    public function __construct(Business $model){
+    public function __construct(Client $model){
         $this->model = $model;
     }
 
@@ -16,14 +16,14 @@ class BusinessRepository extends BaseRepository implements BusinessRepositoryInt
      * @param array $columns
      * @param array $relations
      * @param array $relations_count
-     * @return Business|null
+     * @return Client|null
      */
     public function findByUserId(
         int $user_id,
         array $columns = ['*'],
         array $relations = [],
         array $relations_count = []
-    ): ?Business
+    ): ?Client
     {
         return $this->model
             ->query()
@@ -34,30 +34,29 @@ class BusinessRepository extends BaseRepository implements BusinessRepositoryInt
             ->first();
     }
 
-
     /**
-     * @param int $business_id
-     * @param int $purchase_amount
+     * @param int $client_id
+     * @param int $bonus_amount
      * @return int|null
      */
-    public function decrementBalance(int $business_id, int $purchase_amount): ?int
+    public function incrementBonus(int $client_id, int $bonus_amount): ?int
     {
         return $this->model
                 ->query()
-                ->where('id', $business_id)
-                ->decrement('balance', $purchase_amount);
+                ->where('id', $client_id)
+                ->increment('balance', $bonus_amount);
     }
 
     /**
-     * @param int $business_id
-     * @param int $purchase_amount
+     * @param int $client_id
+     * @param int $bonus_amount
      * @return int|null
      */
-    public function incrementBalance(int $business_id, int $purchase_amount): ?int
+    public function decrementBonus(int $client_id, int $bonus_amount): ?int
     {
         return $this->model
             ->query()
-            ->where('id', $business_id)
-            ->increment('balance', $purchase_amount);
+            ->where('id', $client_id)
+            ->decrement('balance', $bonus_amount);
     }
 }

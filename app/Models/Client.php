@@ -12,9 +12,12 @@ class Client extends Model
     use HasFactory, HasUser, HasTransactions;
 
     protected $fillable = [
-        'balance',
         'user_id'
     ];
+
+    public function businessBonus(){
+        return $this->belongsToMany(Business::class,'business_client_bonuses', 'client_id', 'business_id');
+    }
 
 
 }

@@ -29,6 +29,9 @@ class Business extends Model
         'user_id'
     ];
 
+    public function clientBonus(){
+        return $this->belongsToMany(Client::class, 'business_client_bonuses', 'business_id', 'client_id');
+    }
 
 
 }

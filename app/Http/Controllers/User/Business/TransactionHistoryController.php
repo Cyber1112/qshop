@@ -25,63 +25,35 @@ class TransactionHistoryController extends Controller
         $client_id = $this->getClientId($clientExist);
 
         if ( $user->hasRole('employee') ){
-            return $this->sendByEmployee(
-                $data,
-                $this->getBusinessIdByEmployee($user),
-                $client_id,
-                $user
-            );
+            if($user->hasPermissionTo('manipulate bonus')){
+                return $this->sendBonus(
+                    $data,
+                    $this->getBusinessIdByEmployee($user),
+                    $client_id,
+                );
+            }
+            return response()->json(['message' => "You are not given permission to manipulate bonus"], 401);
         }
 
-        return $this->sendByBusiness(
-            $data,
-            $this->getBusinessIdByBusiness($user),
-            $client_id
-        );
+        return $this->sendBonus($data, $this->getBusinessIdByBusiness($user), $client_id);
+
+
     }
 
-    public function writeOffTransaction(Request $request){
-        $clientExist = $this->checkNumber($request->phone_number);
-        if (!$clientExist){
-            return response()->json(['message' => "The user with number $request->phone_number is not found" ], 404);
-        }
-        $client_id = $this->getClientId($clientExist);
-
-        app(Contracts\WriteOffBonusFromClient::class)->execute(
-            $client_id,
-            $request->bonus_amount
-        );
-
-        return response()->noContent();
-    }
+//    public function writeOffTransaction(Request $request){
+//        $clientExist = $this->checkNumber($request->phone_number);
+//        if (!$clientExist){
+//            return response()->json(['message' => "The user with number $request->phone_number is not found" ], 404);
+//        }
+//        $client_id = $this->getClientId($clientExist);
+//
+//
+//
+//        return response()->noContent();
+//    }
 
     public function getClientId($client_id){
         return app(Tasks\Client\FindTask::class)->run($client_id)->id;
-    }
-
-    public function sendByEmployee($data, $business_id, $client_id, $user){
-        if ( $user->hasPermissionTo('manipulate bonus') ){
-            if ( $this->checkBalance($business_id, $data->purchase_amount) ){
-                return $this->sendBonus(
-                    $data,
-                    $business_id,
-                    $client_id
-                );
-            }
-            return response()->json(['message' => "Not enough money"], 403);
-        }
-        return response()->json(['message' => "You are not given permission to manipulate bonus"], 401);
-    }
-
-    public function sendByBusiness($data, $business_id, $client_id){
-        if ( $this->checkBalance($business_id, $data->purchase_amount) ){
-            return $this->sendBonus(
-                $data,
-                $business_id,
-                $client_id
-            );
-        }
-        return response()->json(['message' => "Not enough money"], 403);
     }
 
     public function checkBalance($business_id, $purchase_amount){
@@ -93,14 +65,16 @@ class TransactionHistoryController extends Controller
     }
 
     public function sendBonus($dto, $business_id, $client_id){
-        app(Contracts\Transaction::class)->execute($dto, $business_id, $client_id);
-        return response()->noContent();
+        if ( $this->checkBalance($business_id, $dto->purchase_amount) ){
+            app(Contracts\Transaction::class)->execute($dto, $business_id, $client_id);
+            return response()->noContent();
+        }
+        return response()->json(['message' => "Not enough money"], 405);
     }
 
     public function checkNumber($phone_number){
         return app(Tasks\User\FindByPhoneTask::class)->run($phone_number)->id;
     }
-
 
     public function getBusinessIdByEmployee($user){
         return app(Tasks\Employee\FindTask::class)->run(

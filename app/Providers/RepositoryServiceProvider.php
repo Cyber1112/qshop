@@ -33,5 +33,6 @@ class RepositoryServiceProvider extends ServiceProvider
 //      Transactions
         Repositories\TransactionHistoryRepositoryInterface::class => Repositories\Eloquent\TransactionHistoryRepository::class,
         Repositories\TransactionCommentsRepositoryInterface::class => Repositories\Eloquent\TransactionCommentsRepository::class,
+        Repositories\BusinessClientBonusRepositoryInterface::class => Repositories\Eloquent\BusinessClientBonusRepository::class,
     ];
 }

@@ -26,7 +26,9 @@ class ActionServiceProvider extends ServiceProvider
 //        TRANSACTION
         Contracts\Transaction::class => Actions\BusinessTransactionHistory\CreateAction::class,
         Contracts\TransactionComments::class => Actions\BusinessTransactionHistoryComments\CreateAction::class,
-        Contracts\WriteOffBonusFromClient::class => Actions\BusinessBonus\WriteOffAction::class,
+        Contracts\WriteOffBonusFromClient::class => Actions\BusinessTransactionHistory\WriteOffAction::class,
+        Contracts\BusinessClientBonus::class => Actions\BusinessClientBonus\GetBusinessClientAction::class,
+        Contracts\GetBusinessClientBonus::class => Actions\BusinessClientBonus\GetBusinessClientAction::class,
 
 //        EMPLOYEES
         Contracts\AddEmployee::class => Actions\Employee\CreateAction::class,

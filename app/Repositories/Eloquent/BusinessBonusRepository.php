@@ -11,4 +11,14 @@ class BusinessBonusRepository extends BaseRepository implements BusinessBonusRep
         $this->model = $model;
     }
 
+    public function findByBusinessId(int $business_id, array $columns = ['*'], array $relations = [], array $relations_count = []): ?BusinessBonusOption
+    {
+        return $this->model
+                ->query()
+                ->select($columns)
+                ->where('business_id', $business_id)
+                ->with($relations)
+                ->withCount($relations_count)
+                ->first();
+    }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\User\Account\ProfileController;
 use App\Http\Controllers\User\Business\BonusController;
+use App\Http\Controllers\User\Business\BusinessClientBonusController;
 use App\Http\Controllers\User\Business\BusinessInfoController;
 use App\Http\Controllers\User\Business\CategoryController;
 use App\Http\Controllers\User\Business\CityController;
@@ -51,9 +52,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::prefix('transaction')->group(function(){
             Route::post('/create-transaction', [TransactionHistoryController::class, 'createTransaction']);
-            Route::post('/write-off-transaction', [TransactionHistoryController::class, 'writeOffTransaction']);
             Route::post('/create-comment/{transaction}', [TransactionHistoryCommentController::class, 'create']);
         });
+
+        Route::prefix('business-client')->group(function(){
+            Route::get('get-info', [BusinessClientBonusController::class, 'get']);
+            Route::post('/write-off-transaction', [BusinessClientBonusController::class, 'writeOffTransaction']);
+        });
+
     });
 
 //    Employee

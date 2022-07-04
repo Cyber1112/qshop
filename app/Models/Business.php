@@ -12,10 +12,13 @@ use App\Traits\Business\HasImages;
 use App\Traits\Business\HasSchedule;
 use App\Traits\Business\HasTransactions;
 use App\Traits\Business\HasUser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
+/**
+ * @method static Builder|Business query()
+ */
 class Business extends Model
 {
     use HasFactory, HasUser, HasDescription,

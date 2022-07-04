@@ -11,12 +11,13 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Traits\User\HasBusinesses;
 use App\Traits\User\HasClients;
-
-
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 /**
  * App\Models\User
  *
  * @property-read Business|null $business
+ * @method static Builder|User query()
  */
 
 class User extends Authenticatable

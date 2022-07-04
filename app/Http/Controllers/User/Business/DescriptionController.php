@@ -9,6 +9,7 @@ use App\Dto;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Tasks;
+use App\Helpers;
 
 class DescriptionController extends Controller
 {
@@ -19,47 +20,14 @@ class DescriptionController extends Controller
      */
     public function createDescrption(CreateRequest $request): \Illuminate\Http\JsonResponse|Response
     {
-        $user = Auth::user();
+        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user(), 'edit profile');
 
-        if($user->hasRole('employee')){
-
-            if ( $user->hasPermissionTo('edit profile') ){
-                return $this->setDescription(
-                    Dto\BusinessDescription\CreateDtoFactory::fromRequest($request),
-                    $this->getBusinessIdByEmployee($user)
-                );
-            }
-
-            return response()->json(
-                ["You are not given permission to edit edit profile"], 401);
-        }
-
-        return $this->setDescription(
-            Dto\BusinessDescription\CreateDtoFactory::fromRequest($request),
-            $this->getBusinessIdByBusiness($user)
-        );
-
-    }
-
-    public function setDescription($dto, $user){
         app(Contracts\BusinessDescription::class)->execute(
-            $dto,
+            Dto\BusinessDescription\CreateDtoFactory::fromRequest($request),
             $user
         );
 
         return response()->noContent();
-    }
-
-    public function getBusinessIdByEmployee($user){
-        return app(Tasks\Employee\FindTask::class)->run(
-            $user->id
-        )->business_id;
-    }
-
-    public function getBusinessIdByBusiness($user){
-        return app(Tasks\Business\FindTask::class)->run(
-            $user->id
-        )->id;
     }
 
 }

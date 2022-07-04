@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Business;
 use App\Models\Employee;
 use App\Models\SubBusiness;
 use App\Models\User;
@@ -46,5 +47,7 @@ class PermissionsSeeder extends Seeder
 //        Role::create(["name" => "employee"]);
 //        User::find(7)->assignRole('employee');
 //        User::find(7)->givePermissionTo(['edit profile']);
+        User::find(1)->assignRole('business');
+
     }
 }

@@ -9,49 +9,21 @@ use App\Contracts;
 use Illuminate\Support\Facades\Auth;
 use App\Tasks;
 use App\Dto;
+use App\Helpers;
 
 class BonusController extends Controller
 {
+
     public function createBonus(CreateRequest $request){
-        $user = Auth::user();
+        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user(), 'manipulate bonus');
 
-        if ( $user->hasRole('employee') ){
-            if ( $user->hasPermissionTo('manipulate bonus') ){
-                return $this->setBonus(
-                    $this->getBusinessIdByEmployee($user),
-                    Dto\BusinessBonus\CreateDtoFactory::fromRequest($request)
-                );
-            }
-            return response()->json(["You are not given permission to manipulate bonus"], 401);
-        }
-
-
-        return $this->setBonus(
-            $this->getBusinessIdByBusiness($user),
+        app(Contracts\BusinessBonus::class)->execute(
+            $user,
             Dto\BusinessBonus\CreateDtoFactory::fromRequest($request)
         );
 
+       return response()->noContent();
+
     }
 
-    public function setBonus($business_id, $dto){
-
-        app(Contracts\BusinessBonus::class)->execute(
-            $business_id,
-            $dto
-        );
-
-        return response()->noContent();
-    }
-
-    public function getBusinessIdByEmployee($user){
-        return app(Tasks\Employee\FindTask::class)->run(
-            $user->id
-        )->business_id;
-    }
-
-    public function getBusinessIdByBusiness($user){
-        return app(Tasks\Business\FindTask::class)->run(
-            $user->id
-        )->id;
-    }
 }

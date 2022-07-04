@@ -20,6 +20,9 @@ class InfoResource extends JsonResource
             'description' => $this->description,
             'categories' => $this->category,
             'schedule' => $this->schedule,
+            'employees' => $this->employee,
+            'bonus_options' => $this->bonus,
+            'transaction_history' => $this->transactions
         ];
     }
 }

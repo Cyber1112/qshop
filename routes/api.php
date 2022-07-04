@@ -41,14 +41,29 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::prefix('business')->group(function () {
-        Route::post('/create-address', [ContactController::class, 'createContact']);
-        Route::post('/create-description', [DescriptionController::class, 'createDescrption']);
-        Route::post('/create-city', [CityController::class, 'addCity']);
-        Route::post('/create-category', [CategoryController::class, 'addCategory']);
-        Route::post('/create-schedule', [ScheduleController::class, 'addSchedule']);
+        Route::prefix('address')->group(function (){
+            Route::post('/create', [ContactController::class, 'createContact']);
+        });
+        Route::prefix('description')->group(function (){
+            Route::post('/create', [DescriptionController::class, 'createDescrption']);
+        });
+        Route::prefix('city')->group(function (){
+            Route::post('/create', [CityController::class, 'addCity']);
+        });
+        Route::prefix('category')->group(function (){
+            Route::post('/create', [CategoryController::class, 'addCategory']);
+        });
+        Route::prefix('schedule')->group(function (){
+            Route::post('/create', [ScheduleController::class, 'addSchedule']);
+        });
         Route::get('/get-info', [BusinessInfoController::class, 'index']);
-        Route::post('/create-employee', [EmployeeController::class, 'create']);
         Route::post('/create-bonus', [BonusController::class, 'createBonus']);
+
+        Route::prefix('employee')->group(function(){
+            Route::post('/create', [EmployeeController::class, 'create']);
+            Route::post('/delete', [EmployeeController::class, 'delete']);
+            Route::get('/get', [EmployeeController::class, 'index']);
+        });
 
         Route::prefix('transaction')->group(function(){
             Route::post('/create-transaction', [TransactionHistoryController::class, 'createTransaction']);
@@ -60,11 +75,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::post('/write-off-transaction', [BusinessClientBonusController::class, 'writeOffTransaction']);
         });
 
-    });
-
-//    Employee
-    Route::prefix('employee')->group(function () {
-        Route::get('/get-info', [EmployeeController::class, 'index']);
     });
 
     // Client

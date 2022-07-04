@@ -28,4 +28,11 @@ class EmployeeRepository extends BaseRepository implements EmployeeRepositoryInt
             ->first();
     }
 
+    public function deleteEmployee($employee_id): ?bool
+    {
+        return $this->model
+                ->query()
+                ->where('id', $employee_id)
+                ->delete();
+    }
 }

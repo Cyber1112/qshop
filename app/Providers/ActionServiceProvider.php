@@ -32,6 +32,7 @@ class ActionServiceProvider extends ServiceProvider
 
 //        EMPLOYEES
         Contracts\AddEmployee::class => Actions\Employee\CreateAction::class,
+        Contracts\DeleteEmployee::class => Actions\Employee\DeleteAction::class,
 
     ];
 }

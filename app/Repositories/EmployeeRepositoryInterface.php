@@ -20,4 +20,7 @@ interface EmployeeRepositoryInterface extends EloquentRepositoryInterface{
         array $relations_count = []
     ): ?Employee;
 
+
+    public function deleteEmployee($employee_id): ?bool;
+
 }

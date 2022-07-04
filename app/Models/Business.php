@@ -15,16 +15,19 @@ use App\Traits\Business\HasUser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @method static Builder|Business query()
  */
 class Business extends Model
 {
-    use HasFactory, HasUser, HasDescription,
+    use HasFactory, HasRoles, HasUser, HasDescription,
         HasContact, HasCity, HasSchedule,
         HasCategory, HasBonus, HasEmployee,
         HasImages, HasTransactions;
+
+    protected $guard_name = 'web';
 
     protected $fillable = [
         'business_name',
@@ -35,7 +38,6 @@ class Business extends Model
     public function clientBonus(){
         return $this->belongsToMany(Client::class, 'business_client_bonuses', 'business_id', 'client_id');
     }
-
 
 }
 

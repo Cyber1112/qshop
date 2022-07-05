@@ -47,7 +47,7 @@ class PermissionsSeeder extends Seeder
 //        Role::create(["name" => "employee"]);
 //        User::find(7)->assignRole('employee');
 //        User::find(7)->givePermissionTo(['edit profile']);
-        User::find(1)->assignRole('business');
+//        User::find(1)->assignRole('business');
 
     }
 }

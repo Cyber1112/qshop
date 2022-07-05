@@ -17,4 +17,6 @@ class BusinessInfoController extends Controller
         return Resources\User\Business\CompanyInformation\InfoResource::collection([Business::find($business)]);
     }
 
+
+
 }

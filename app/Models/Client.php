@@ -23,5 +23,9 @@ class Client extends Model
         return $this->belongsToMany(Business::class,'business_client_bonuses', 'client_id', 'business_id');
     }
 
+    public function businessClientWrittenOffTransactions(){
+        return $this->belongsToMany(Business::class, 'business_client_wrote_off_transactions', 'client_id', 'business_id');
+    }
+
 
 }

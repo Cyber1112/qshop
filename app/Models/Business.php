@@ -39,5 +39,13 @@ class Business extends Model
         return $this->belongsToMany(Client::class, 'business_client_bonuses', 'business_id', 'client_id');
     }
 
+    public function transactionHistory(){
+        return $this->hasMany(TransactionHistory::class);
+    }
+
+    public function businessClientWrittenOffTransactions(){
+        return $this->belongsToMany(Client::class, 'business_client_wrote_off_transactions', 'business_id', 'client_id');
+    }
+
 }
 

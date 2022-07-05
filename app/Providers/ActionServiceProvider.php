@@ -29,7 +29,8 @@ class ActionServiceProvider extends ServiceProvider
         Contracts\WriteOffBonusFromClient::class => Actions\BusinessTransactionHistory\WriteOffAction::class,
         Contracts\BusinessClientBonus::class => Actions\BusinessClientBonus\GetBusinessClientAction::class,
         Contracts\GetBusinessClientBonus::class => Actions\BusinessClientBonus\GetBusinessClientAction::class,
-
+        Contracts\DeleteTransaction::class => Actions\BusinessTransactionHistory\DeleteAction::class,
+        Contracts\GetBusinessTransactionsBetweenDate::class => Actions\BusinessTransactionHistory\GetBusinessTransactionsBetweenDateAction::class,
 //        EMPLOYEES
         Contracts\AddEmployee::class => Actions\Employee\CreateAction::class,
         Contracts\DeleteEmployee::class => Actions\Employee\DeleteAction::class,

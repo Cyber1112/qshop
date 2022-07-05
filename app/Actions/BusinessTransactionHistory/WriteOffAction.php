@@ -25,6 +25,18 @@ class WriteOffAction implements WriteOffBonusFromClient {
 
             $count += 1;
         }
+        $this->setWrittenOffBonus($data[0]['business_id'], $data[0]['client_id'], $bonus_amount);
+    }
+
+    public function setWrittenOffBonus($business_id, $client_id, $bonus_amount){
+        app(Tasks\BusinessClientWrittenOffTransaction\CreateTask::class)->run(
+            [
+                'written_off_bonus' => $bonus_amount,
+                'business_id' => $business_id,
+                'client_id' => $client_id
+            ]
+        );
+
 
     }
 

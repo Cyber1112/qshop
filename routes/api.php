@@ -66,6 +66,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
         Route::prefix('transaction')->group(function(){
+            Route::get('get', [TransactionHistoryController::class, 'getAll']);
+            Route::get('get/{history}', [TransactionHistoryController::class, 'get']);
+            Route::get('get-between-date', [TransactionHistoryController::class, 'getTransactionBetweenDate']);
+            Route::post('/delete/{id}', [TransactionHistoryController::class, 'delete']);
             Route::post('/create-transaction', [TransactionHistoryController::class, 'createTransaction']);
             Route::post('/create-comment/{transaction}', [TransactionHistoryCommentController::class, 'create']);
         });

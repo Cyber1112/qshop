@@ -4,6 +4,8 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\TransactionHistory;
 use App\Repositories\TransactionHistoryRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class TransactionHistoryRepository extends BaseRepository implements TransactionHistoryRepositoryInterface{
 
@@ -21,5 +23,33 @@ class TransactionHistoryRepository extends BaseRepository implements Transaction
             ->query()
             ->where("id", $transaction_id)
             ->delete();
+    }
+
+    public function getBusinessTotalSumTransactions(int $business_id, $from, $to): int
+    {
+        return $this->model
+                ->query()
+                ->where('business_id', $business_id)
+                ->whereBetween('created_at', [$from, $to])
+                ->sum('purchase_amount');
+    }
+
+    public function getBusinessCountTransactions(int $business_id, $from, $to): int
+    {
+        return $this->model
+            ->query()
+            ->where('business_id', $business_id)
+            ->whereBetween('created_at', [$from, $to])
+            ->count('purchase_amount');
+    }
+
+    public function getAccruedBonus(int $business_id, $from, $to, $columns = ['*']): Collection
+    {
+        return $this->model
+            ->query()
+            ->select($columns)
+            ->where('business_id',$business_id)
+            ->whereBetween('created_at', [$from, $to])
+            ->get();
     }
 }

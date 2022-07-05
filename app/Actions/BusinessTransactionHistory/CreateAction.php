@@ -26,8 +26,8 @@ class CreateAction implements Transaction{
         );
 
         $this->addToTransactionHistory($dto, $business_id, $client_id);
-    }
 
+    }
 
     public function sendBonusToClient($client_id, $business_id, $bonus_amount, $activation_date, $deactivation_date = null){
 
@@ -53,9 +53,6 @@ class CreateAction implements Transaction{
     {
         return (int) (($bonus_amount*$purchase_amount)/100);
     }
-
-
-
 
 
     public function setComment(){}

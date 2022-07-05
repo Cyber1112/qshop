@@ -21,7 +21,7 @@ class ContactController extends Controller
     public function createContact(CreateRequest $request): \Illuminate\Http\JsonResponse|Response
     {
 
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user(), 'edit profile');
+        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
 
         app(Contracts\ContactInformation::class)->execute(
             Dto\BusinessContact\CreateDtoFactory::fromRequest($request),

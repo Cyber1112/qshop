@@ -14,6 +14,14 @@ interface TransactionHistoryRepositoryInterface extends EloquentRepositoryInterf
     public function deleteTransaction(int $transaction_id): ?bool;
 
 
+    public function getTransactionsByBusinessId(
+        $business_id,
+        array $columns = ['*'],
+        array $relations = [],
+        array $relations_count = []
+    ): Collection;
+
+
     public function getBusinessTotalSumTransactions(
         int $business_id,
         $from,

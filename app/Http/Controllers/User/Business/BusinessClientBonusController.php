@@ -18,7 +18,7 @@ class BusinessClientBonusController extends Controller
     }
 
     public function writeOffTransaction(Request $request){
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user(), 'manipulate bonus');
+        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
 
         $clientExist = app(Tasks\User\FindByPhoneTask::class)->run($request->phone_number)->id;
 

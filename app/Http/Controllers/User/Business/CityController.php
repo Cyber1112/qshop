@@ -19,7 +19,7 @@ class CityController extends Controller
      */
     public function addCity(Request $request): \Illuminate\Http\JsonResponse|Response
     {
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user(), 'edit profile');
+        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
 
         app(Contracts\BusinessCity::class)->execute(
             $request->city_id,

@@ -52,4 +52,13 @@ class TransactionHistoryRepository extends BaseRepository implements Transaction
             ->whereBetween('created_at', [$from, $to])
             ->get();
     }
+
+    public function getTransactionsByBusinessId($business_id, array $columns = ['*'], array $relations = [], array $relations_count = []): Collection
+    {
+        return $this->model
+            ->query()
+            ->select($columns)
+            ->where('business_id', $business_id)
+            ->get();
+    }
 }

@@ -13,6 +13,7 @@ class ActionServiceProvider extends ServiceProvider
         Contracts\Logout::class => Actions\LogoutAction::class,
 
         Contracts\UserAccount::class => Actions\UserAccount\CreateAction::class,
+        Contracts\DeleteAvatar::class => Actions\UserAccount\DeleteAvatarAction::class,
 
 //        BUSINESSES
         Contracts\ContactInformation::class => Actions\BusinessContact\CreateAction::class,
@@ -31,6 +32,7 @@ class ActionServiceProvider extends ServiceProvider
         Contracts\GetBusinessClientBonus::class => Actions\BusinessClientBonus\GetBusinessClientAction::class,
         Contracts\DeleteTransaction::class => Actions\BusinessTransactionHistory\DeleteAction::class,
         Contracts\GetBusinessTransactionsBetweenDate::class => Actions\BusinessTransactionHistory\GetBusinessTransactionsBetweenDateAction::class,
+        Contracts\GetStatistics::class => Actions\Statistics\GetStatisticsAction::class,
 //        EMPLOYEES
         Contracts\AddEmployee::class => Actions\Employee\CreateAction::class,
         Contracts\DeleteEmployee::class => Actions\Employee\DeleteAction::class,

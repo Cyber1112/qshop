@@ -18,13 +18,13 @@ class TransactionHistoryController extends Controller
 {
 
     public function getAll(Request $request){
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user(), 'manipulate bonus');
+        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
         return Resources\User\Business\Transactions\InfoResource::collection(TransactionHistory::where('business_id', $user)
             ->paginate(10));
     }
 
     public function getTransactionBetweenDate(Request $request){
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user(), 'manipulate bonus');
+        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
         return app(Contracts\GetBusinessTransactionsBetweenDate::class)->execute($user, $request->from, $request->to);
 
     }
@@ -39,7 +39,7 @@ class TransactionHistoryController extends Controller
     }
 
     public function createTransaction(CreateRequest $request){
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user(), 'manipulate bonus');
+        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
 
         $data = Dto\BusinessTransaction\CreateDtoFactory::fromRequest($request);
 

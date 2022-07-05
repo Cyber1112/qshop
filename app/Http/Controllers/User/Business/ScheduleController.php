@@ -19,7 +19,7 @@ class ScheduleController extends Controller
      */
     public function addSchedule(CreateRequest $request): Response|\Illuminate\Http\JsonResponse
     {
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user(), 'edit profile');
+        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
 
         app(Contracts\BusinessSchedule::class)->execute(
             $request,

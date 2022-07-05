@@ -7,15 +7,15 @@ use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 class DefineUserRole{
 
-    public function defineRole($user, $permission){
+    public function defineRole($user){
         if ( $user->hasRole('employee') ){
-            if ( $user->hasPermissionTo($permission) ){
-                return $this->getBusinessIdByEmployee($user);
-            }
-            throw new AccessDeniedException("You are not given permission", 401);
+            return $this->getBusinessIdByEmployee($user);
         }
         if ($user->hasRole('business')){
             return $this->getBusinessIdByBusiness($user);
+        }
+        if( $user->hasRole('client') ){
+            return $this->getClientId($user);
         }
 
     }
@@ -32,5 +32,16 @@ class DefineUserRole{
         )->id;
     }
 
+    public function getClientId($user){
+        return app(Tasks\Client\FindTask::class)->run($user->id)->id;
+    }
 
 }
+
+//NEEDED
+//if ( $user->hasPermissionTo($permission) ){
+//    return $this->getBusinessIdByEmployee($user);
+//}
+//throw new AccessDeniedException("You are not given permission", 401);
+
+

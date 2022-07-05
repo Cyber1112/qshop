@@ -11,8 +11,13 @@ class CreateAction implements UserAccount {
 
     public function execute($data): void
     {
+
         $this->updataName($data->name);
-        $this->updateBusinessName($data->business_name);
+
+        if(Auth::user()->hasRole('business')){
+            $this->updateBusinessName($data->business_name);
+        }
+
         $this->updateAvatar($data->image);
     }
 

@@ -13,7 +13,7 @@ use App\Helpers;
 class BusinessInfoController extends Controller
 {
     public function index(Request $request){
-        $business = app(Helpers\DefineUserRole::class)->defineRole(Auth::user(), 'manipulate bonus');
+        $business = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
         return Resources\User\Business\CompanyInformation\InfoResource::collection([Business::find($business)]);
     }
 

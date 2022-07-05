@@ -20,4 +20,6 @@ interface UserRepositoryInterface extends EloquentRepositoryInterface
         array $relations = [],
         array $relations_count = []
     ): ?User;
+
+
 }

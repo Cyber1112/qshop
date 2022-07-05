@@ -39,4 +39,5 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->withCount($relations_count)
             ->first();
     }
+
 }

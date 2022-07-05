@@ -9,8 +9,10 @@ use App\Http\Controllers\User\Business\CityController;
 use App\Http\Controllers\User\Business\DescriptionController;
 use App\Http\Controllers\User\Business\EmployeeController;
 use App\Http\Controllers\User\Business\ScheduleController;
+use App\Http\Controllers\User\Business\StatisticsController;
 use App\Http\Controllers\User\Business\TransactionHistoryCommentController;
 use App\Http\Controllers\User\Business\TransactionHistoryController;
+use App\Http\Controllers\User\Client\ClientInfoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
@@ -52,6 +54,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
         Route::prefix('category')->group(function (){
             Route::post('/create', [CategoryController::class, 'addCategory']);
+            Route::get('/get', [CategoryController::class, 'showCategories']);
+            Route::get('/get/{id}', [CategoryController::class, 'showSubCategories']);
         });
         Route::prefix('schedule')->group(function (){
             Route::post('/create', [ScheduleController::class, 'addSchedule']);
@@ -66,24 +70,32 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
         Route::prefix('transaction')->group(function(){
-            Route::get('get', [TransactionHistoryController::class, 'getAll']);
-            Route::get('get/{history}', [TransactionHistoryController::class, 'get']);
-            Route::get('get-between-date', [TransactionHistoryController::class, 'getTransactionBetweenDate']);
+            Route::get('/get', [TransactionHistoryController::class, 'getAll']);
+            Route::get('/get/{history}', [TransactionHistoryController::class, 'get']);
+            Route::get('/get-between-date', [TransactionHistoryController::class, 'getTransactionBetweenDate']);
             Route::post('/delete/{id}', [TransactionHistoryController::class, 'delete']);
             Route::post('/create-transaction', [TransactionHistoryController::class, 'createTransaction']);
             Route::post('/create-comment/{transaction}', [TransactionHistoryCommentController::class, 'create']);
         });
 
         Route::prefix('business-client')->group(function(){
-            Route::get('get-info', [BusinessClientBonusController::class, 'get']);
+            Route::get('/get-info', [BusinessClientBonusController::class, 'get']);
             Route::post('/write-off-transaction', [BusinessClientBonusController::class, 'writeOffTransaction']);
+        });
+
+        Route::prefix('statistics')->group(function(){
+            Route::get('/get', [StatisticsController::class, 'index']);
         });
 
     });
 
     // Client
     Route::prefix('client')->group(function () {
-
+        Route::prefix('profile')->group(function(){
+            Route::get('/get', [ClientInfoController::class, 'index']);
+            Route::post('/update', [ClientInfoController::class, 'updateProfile']);
+            Route::post('/delete-avatar', [ClientInfoController::class, 'deleteAvatar']);
+        });
     });
 
     // Admin

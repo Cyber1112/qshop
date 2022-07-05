@@ -20,7 +20,7 @@ class DescriptionController extends Controller
      */
     public function createDescrption(CreateRequest $request): \Illuminate\Http\JsonResponse|Response
     {
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user(), 'edit profile');
+        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
 
         app(Contracts\BusinessDescription::class)->execute(
             Dto\BusinessDescription\CreateDtoFactory::fromRequest($request),

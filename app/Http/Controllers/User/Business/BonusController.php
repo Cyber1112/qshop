@@ -15,7 +15,7 @@ class BonusController extends Controller
 {
 
     public function createBonus(CreateRequest $request){
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user(), 'manipulate bonus');
+        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
 
         app(Contracts\BusinessBonus::class)->execute(
             $user,

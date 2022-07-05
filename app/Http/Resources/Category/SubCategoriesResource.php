@@ -6,7 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AllResource extends JsonResource
+class SubCategoriesResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,7 @@ class AllResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'name' => $this->city,
+            'name' => $this->category_name,
         ];
     }
 }

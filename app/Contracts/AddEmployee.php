@@ -6,9 +6,6 @@ use App\Dto\BusinessEmployee\CreateDto;
 
 interface AddEmployee{
 
-    public function execute(
-        CreateDto $dto,
-        int $business_id
-    ): void;
+    public function execute(CreateDto $dto): void;
 
 }

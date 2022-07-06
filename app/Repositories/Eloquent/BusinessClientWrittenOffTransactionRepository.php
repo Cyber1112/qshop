@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\BusinessClientWroteOffTransactions;
 use App\Repositories\BusinessClientWrittenOffTransactionRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class BusinessClientWrittenOffTransactionRepository extends BaseRepository implements BusinessClientWrittenOffTransactionRepositoryInterface{
 
@@ -21,11 +22,22 @@ class BusinessClientWrittenOffTransactionRepository extends BaseRepository imple
             ->sum('written_off_bonus');
     }
 
-    public function getClientTotalWrittenOffBonus($client_id): int
+    public function calculateClientTotalWrittenOffBonus($client_id): int
     {
         return $this->model
             ->query()
             ->where('client_id', $client_id)
             ->sum('written_off_bonus');
+    }
+
+    public function getClientWrittenOffTransactions(int $client_id, string $from, string $to, array $columns = ['*']): Collection
+    {
+        return $this->model
+            ->query()
+            ->select($columns)
+            ->where('client_id', $client_id)
+            ->whereBetween('business_client_wrote_off_transactions.created_at', [$from, $to])
+            ->join('businesses', 'businesses.id', '=', 'business_id')
+            ->get();
     }
 }

@@ -6,12 +6,20 @@ namespace App\Actions\BusinessClientBonus;
 use App\Contracts\GetBusinessClientBonus;
 use Illuminate\Database\Eloquent\Collection;
 use App\Tasks;
-
+use App\Helpers;
+use Illuminate\Support\Facades\Auth;
 
 class GetBusinessClientAction implements GetBusinessClientBonus {
 
-    public function execute($client_id, $business_id): Collection
+    protected $user;
+
+    public function __construct()
     {
-        return app(Tasks\BusinessClientBonus\FindTask::class)->run($client_id, $business_id);
+        $this->user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
+    }
+
+    public function execute($client_id): Collection
+    {
+        return app(Tasks\BusinessClientBonus\FindTask::class)->run($client_id, $this->user);
     }
 }

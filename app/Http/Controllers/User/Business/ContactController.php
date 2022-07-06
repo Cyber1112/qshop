@@ -7,9 +7,7 @@ use App\Http\Requests\BusinessContacts\CreateRequest;
 use App\Contracts;
 use App\Dto;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use App\Tasks;
-use App\Helpers;
 
 class ContactController extends Controller
 {
@@ -21,11 +19,8 @@ class ContactController extends Controller
     public function createContact(CreateRequest $request): \Illuminate\Http\JsonResponse|Response
     {
 
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
-
         app(Contracts\ContactInformation::class)->execute(
-            Dto\BusinessContact\CreateDtoFactory::fromRequest($request),
-            $user
+            Dto\BusinessContact\CreateDtoFactory::fromRequest($request)
         );
         return response()->noContent();
 

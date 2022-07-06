@@ -36,9 +36,12 @@ class ActionServiceProvider extends ServiceProvider
 //        EMPLOYEES
         Contracts\AddEmployee::class => Actions\Employee\CreateAction::class,
         Contracts\DeleteEmployee::class => Actions\Employee\DeleteAction::class,
+
+//        CLIENT
         Contracts\GetClientPartners::class => Actions\ClientPartners\GetAllAction::class,
         Contracts\GetClientFullInfo::class => Actions\ClientPartners\GetFullInfoAction::class,
         Contracts\GetClientActivationBonusDate::class => Actions\ClientActivationBonusDate\GetAction::class,
-
+        Contracts\GetAccruedAndWrittenOffTransactions::class => Actions\ClientAccruedAndWrittenOffTransactions\GetAction::class,
+        Contracts\GetClientBusinessCategory::class => Actions\ClientBusinessCategory\GetAction::class,
     ];
 }

@@ -6,6 +6,6 @@ use Illuminate\Support\Collection;
 
 interface GetStatistics{
 
-    public function execute($business_id, $period): Collection;
+    public function execute(string $period): Collection;
 
 }

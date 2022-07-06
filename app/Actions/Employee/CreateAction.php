@@ -5,13 +5,20 @@ namespace App\Actions\Employee;
 use App\Contracts\AddEmployee;
 use App\Dto\BusinessEmployee\CreateDto;
 use App\Tasks;
+use Illuminate\Support\Facades\Auth;
+use App\Helpers;
 
 
 class CreateAction implements AddEmployee{
-    public function execute(
-        CreateDto $dto,
-        int $business_id
-    ): void
+
+    protected $user;
+
+    public function __construct()
+    {
+        $this->user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
+    }
+
+    public function execute(CreateDto $dto): void
     {
         $this->createUser([
             "phone_number" => $dto->phone_number,
@@ -23,7 +30,7 @@ class CreateAction implements AddEmployee{
 
         $this->createEmployee([
             "position" => $dto->position,
-            "business_id" => $business_id,
+            "business_id" => $this->user,
             "user_id" => $user->id
         ]);
 

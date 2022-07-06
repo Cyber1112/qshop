@@ -22,11 +22,9 @@ class EmployeeController extends Controller
     }
 
     public function create(CreateRequest $request){
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
 
         app(Contracts\AddEmployee::class)->execute(
-            Dto\BusinessEmployee\CreateDtoFactory::fromRequest($request),
-            $user
+            Dto\BusinessEmployee\CreateDtoFactory::fromRequest($request)
         );
 
         return response()->noContent();

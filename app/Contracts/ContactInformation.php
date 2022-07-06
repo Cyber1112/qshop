@@ -11,6 +11,6 @@ interface ContactInformation{
      * @param CreateDto $dto
      * @return void
      */
-    public function execute(CreateDto $dto, int $business_id): void;
+    public function execute(CreateDto $dto): void;
 
 }

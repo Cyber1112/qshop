@@ -8,8 +8,6 @@ use App\Contracts;
 use App\Dto;
 use Illuminate\Http\Response;
 use App\Tasks;
-use Illuminate\Support\Facades\Auth;
-use App\Helpers;
 
 class ScheduleController extends Controller
 {
@@ -19,12 +17,7 @@ class ScheduleController extends Controller
      */
     public function addSchedule(CreateRequest $request): Response|\Illuminate\Http\JsonResponse
     {
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
-
-        app(Contracts\BusinessSchedule::class)->execute(
-            $request,
-            $user
-        );
+        app(Contracts\BusinessSchedule::class)->execute($request);
         return response()->noContent();
 
     }

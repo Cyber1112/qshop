@@ -4,12 +4,21 @@ namespace App\Actions\BusinessSchedule;
 
 use App\Contracts\BusinessSchedule;
 use App\Tasks;
+use Illuminate\Support\Facades\Auth;
+use App\Helpers;
 
 class CreateAction implements BusinessSchedule{
 
-    public function execute($request, int $business_id): void
+    protected $user;
+
+    public function __construct()
     {
-        $this->delete($business_id);
+        $this->user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
+    }
+
+    public function execute($request): void
+    {
+        $this->delete($this->user);
 
         $counter = 0;
 
@@ -20,7 +29,7 @@ class CreateAction implements BusinessSchedule{
                     'working_day' => $data[$counter]["working_day"],
                     'work_start' => $data[$counter]["work_start"],
                     'work_end' => $data[$counter]["work_end"],
-                    "business_id" => $business_id
+                    "business_id" => $this->user
                 ]
             );
 

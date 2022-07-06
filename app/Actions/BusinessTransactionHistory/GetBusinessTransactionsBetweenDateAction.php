@@ -5,20 +5,29 @@ namespace App\Actions\BusinessTransactionHistory;
 use App\Contracts\GetBusinessTransactionsBetweenDate;
 use Illuminate\Support\Collection;
 use App\Tasks;
+use Illuminate\Support\Facades\Auth;
+use App\Helpers;
 
 class GetBusinessTransactionsBetweenDateAction implements GetBusinessTransactionsBetweenDate {
 
-    public function execute($business_id, $from, $to): Collection
+    protected $user;
+
+    public function __construct()
     {
-        $total_sum = app(Tasks\TransactionHistory\GetBusinessTotalSumTransactionTask::class)->run($business_id, $from, $to);
-        $count = app(Tasks\TransactionHistory\GetBusinessCountTransactions::class)->run($business_id, $from, $to);
+        $this->user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
+    }
+
+    public function execute(string $from, string $to): Collection
+    {
+        $total_sum = app(Tasks\TransactionHistory\GetBusinessTotalSumTransactionTask::class)->run($this->user, $from, $to);
+        $count = app(Tasks\TransactionHistory\GetBusinessCountTransactions::class)->run($this->user, $from, $to);
 
         return collect([
             'total_sum' => $total_sum,
             'count' => $count,
             'average' => (int) ($total_sum / $count),
-            'accrued_bonus' => $this->getAccruedBonus($business_id, $from, $to),
-            'written_off_bonus' => $this->getWrittenOffBonus($business_id, $from, $to)
+            'accrued_bonus' => $this->getAccruedBonus($this->user, $from, $to),
+            'written_off_bonus' => $this->getWrittenOffBonus($this->user, $from, $to)
         ]);
     }
 

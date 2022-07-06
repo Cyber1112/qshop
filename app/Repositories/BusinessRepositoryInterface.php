@@ -44,4 +44,11 @@ interface BusinessRepositoryInterface extends EloquentRepositoryInterface{
         int $purchase_amount
     ): ?int;
 
+    /**
+     * @param int $business_id
+     * @param array $columns
+     * @return mixed
+     */
+    public function getBusinessBonusOptions(array $columns=['*']) :Collection;
+
 }

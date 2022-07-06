@@ -6,12 +6,21 @@ use App\Contracts\GetStatistics;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use App\Tasks;
+use App\Helpers;
+use Illuminate\Support\Facades\Auth;
 
 class GetStatisticsAction implements GetStatistics{
 
-    public function execute($business_id, $period): Collection
+    protected $user;
+
+    public function __construct()
     {
-        $data = app(Tasks\TransactionHistory\GetBusinessTransactions::class)->run($business_id);
+        $this->user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
+    }
+
+    public function execute(string $period): Collection
+    {
+        $data = app(Tasks\TransactionHistory\GetBusinessTransactions::class)->run($this->user);
 
         $data =  $this->convertDate($data);
 

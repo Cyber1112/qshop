@@ -34,7 +34,7 @@ class GetFullInfoAction implements GetClientFullInfo{
 
     public function getSavedMoney(): int
     {
-        return app(Tasks\BusinessClientWrittenOffTransaction\GetWrittenOffBonusByClientTask::class)->run($this->user);
+        return app(Tasks\BusinessClientWrittenOffTransaction\CalculateWrittenOffBonusByClientTask::class)->run($this->user);
     }
 
     public function getTotalTransactions(): int

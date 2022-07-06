@@ -5,13 +5,20 @@ namespace App\Actions\BusinessCity;
 use App\Contracts\BusinessCity;
 use App\Tasks;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers;
 
 class CreateAction implements BusinessCity{
 
+    protected $user;
 
-    public function execute(string $city_id, $business_id): void
+    public function __construct()
     {
-        $this->deleteRedundantCity($business_id);
+        $this->user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
+    }
+
+    public function execute(string $city_id): void
+    {
+        $this->deleteRedundantCity($this->user);
 
         $city = app(Tasks\City\FindTask::class)->run(
             $city_id
@@ -19,7 +26,7 @@ class CreateAction implements BusinessCity{
 
         app(Tasks\BusinessCity\CreateTask::class)->run(
             [
-                "business_id" => $business_id,
+                "business_id" => $this->user,
                 "city_id" => $city->id
             ]
         );

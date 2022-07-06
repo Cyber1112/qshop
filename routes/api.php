@@ -12,6 +12,7 @@ use App\Http\Controllers\User\Business\ScheduleController;
 use App\Http\Controllers\User\Business\StatisticsController;
 use App\Http\Controllers\User\Business\TransactionHistoryCommentController;
 use App\Http\Controllers\User\Business\TransactionHistoryController;
+use App\Http\Controllers\User\Client\ClientBusinessCategoryController;
 use App\Http\Controllers\User\Client\ClientInfoController;
 use App\Http\Controllers\User\Client\ClientPartnersController;
 use App\Http\Controllers\User\Client\ClientTransactionsController;
@@ -58,6 +59,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::post('/create', [CategoryController::class, 'addCategory']);
             Route::get('/get', [CategoryController::class, 'showCategories']);
             Route::get('/get/{id}', [CategoryController::class, 'showSubCategories']);
+            Route::get('/get-categories-business/{category}', [ClientBusinessCategoryController::class, 'index']);
         });
         Route::prefix('schedule')->group(function (){
             Route::post('/create', [ScheduleController::class, 'addSchedule']);
@@ -105,6 +107,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
         Route::prefix('transactions')->group(function (){
             Route::get('/get', [ClientTransactionsController::class, 'index']);
+            Route::get('/accrued-bonus/{history}', [ClientTransactionsController::class, 'showDetailOfAccruedBonus']);
+            Route::get('/written-off-bonus/{writtenBonus}', [ClientTransactionsController::class, 'showDetailOfWrittenOffBonus']);
         });
     });
 

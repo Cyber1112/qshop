@@ -5,15 +5,24 @@ namespace App\Actions\BusinessBonus;
 use App\Contracts\BusinessBonus;
 use App\Dto\BusinessBonus\CreateDto;
 use App\Tasks;
+use App\Helpers;
+use Illuminate\Support\Facades\Auth;
 
 class CreateAction implements BusinessBonus{
 
-    public function execute(int $business_id, CreateDto $dto): void
+    protected $user;
+
+    public function __construct()
     {
-        $this->delete($business_id);
+        $this->user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
+    }
+
+    public function execute(CreateDto $dto): void
+    {
+        $this->delete($this->user);
 
         app(Tasks\BusinessBonusOption\CreateTask::class)->run(
-            $dto->toArray() + ['business_id' => $business_id]
+            $dto->toArray() + ['business_id' => $this->user]
         );
 
     }

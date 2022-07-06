@@ -4,7 +4,7 @@ namespace App\Tasks\BusinessClientWrittenOffTransaction;
 
 use App\Repositories\BusinessClientWrittenOffTransactionRepositoryInterface;
 
-class GetWrittenOffBonusByClientTask{
+class GetClientWrittenOffBonus{
 
     private BusinessClientWrittenOffTransactionRepositoryInterface $transaction_repository;
 
@@ -12,8 +12,13 @@ class GetWrittenOffBonusByClientTask{
         $this->transaction_repository = $transaction_repository;
     }
 
-    public function run($client_id){
-        return $this->transaction_repository->getClientTotalWrittenOffBonus($client_id);
+    public function run(int $client_id, string $from, string $to, array $columns = ['*']){
+        return $this->transaction_repository->getClientWrittenOffTransactions(
+            $client_id,
+            $from,
+            $to,
+            $columns
+        );
     }
 
 }

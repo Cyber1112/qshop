@@ -62,4 +62,13 @@ class BusinessRepository extends BaseRepository implements BusinessRepositoryInt
             ->increment('balance', $purchase_amount);
     }
 
+    public function getBusinessBonusOptions(array $columns = ['*']): Collection
+    {
+        return $this->model
+            ->query()
+            ->select($columns)
+            ->join('business_bonus_options', 'business_bonus_options.business_id', '=', 'businesses.id')
+            ->get();
+
+    }
 }

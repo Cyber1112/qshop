@@ -24,8 +24,7 @@ class TransactionHistoryController extends Controller
     }
 
     public function getTransactionBetweenDate(Request $request){
-        $user = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
-        return app(Contracts\GetBusinessTransactionsBetweenDate::class)->execute($user, $request->from, $request->to);
+        return app(Contracts\GetBusinessTransactionsBetweenDate::class)->execute($request->from, $request->to);
 
     }
 

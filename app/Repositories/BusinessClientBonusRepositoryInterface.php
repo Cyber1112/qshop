@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Builder;
 
 interface BusinessClientBonusRepositoryInterface extends EloquentRepositoryInterface{
 
+    /**
+     * @param int $client_id
+     * @param int $business_id
+     * @param array $columns
+     * @param array $relations
+     * @param array $relations_count
+     * @return Collection
+     */
     public function getClientUnusedBonus(
         int $client_id,
         int $business_id,
@@ -15,6 +23,15 @@ interface BusinessClientBonusRepositoryInterface extends EloquentRepositoryInter
         array $relations_count = []
     ): Collection;
 
+    /**
+     * @param int $business_client_bonus_id
+     * @param int $balance
+     * @param string $status
+     * @param array $columns
+     * @param array $relations
+     * @param array $relations_count
+     * @return int
+     */
     public function updateClientUnusedBonus(
         int $business_client_bonus_id,
         int $balance,
@@ -23,5 +40,37 @@ interface BusinessClientBonusRepositoryInterface extends EloquentRepositoryInter
         array $relations = [],
         array $relations_count = []
     ): int;
+
+    /**
+     * @param int $client_id
+     * @param array $columns
+     * @param array $relations
+     * @param array $relations_count
+     * @return Collection
+     */
+    public function getClientPartners(
+        int $client_id,
+        array $columns = ['*'],
+        array $relations = [],
+        array $relations_count = []
+    ): Collection;
+
+    /**
+     * @param int $client_id
+     * @return int
+     */
+    public function getTotalUnusedBonus(
+        int $client_id
+    ): int;
+
+    /**
+     * @param int $client_id
+     * @return int
+     */
+    public function getClientUnActivatedBonus(
+        int $client_id
+    ): int;
+
+
 
 }

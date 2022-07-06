@@ -41,4 +41,22 @@ interface TransactionHistoryRepositoryInterface extends EloquentRepositoryInterf
         $columns = ['*']
     ): Collection;
 
+    /**
+     * @param int $client_id
+     * @return int
+     */
+    public function getTotalTransactionsByClient(
+        int $client_id
+    ): int;
+
+    /**
+     * @param int $client_id
+     * @param array $columns
+     * @return Collection
+     */
+    public function getClientPartners(
+        int $client_id,
+        array $columns = ['*']
+    ): Collection;
+
 }

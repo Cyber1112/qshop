@@ -20,4 +20,12 @@ class BusinessClientWrittenOffTransactionRepository extends BaseRepository imple
             ->whereBetween('created_at', [$from, $to])
             ->sum('written_off_bonus');
     }
+
+    public function getClientTotalWrittenOffBonus($client_id): int
+    {
+        return $this->model
+            ->query()
+            ->where('client_id', $client_id)
+            ->sum('written_off_bonus');
+    }
 }

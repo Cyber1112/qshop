@@ -13,6 +13,8 @@ use App\Http\Controllers\User\Business\StatisticsController;
 use App\Http\Controllers\User\Business\TransactionHistoryCommentController;
 use App\Http\Controllers\User\Business\TransactionHistoryController;
 use App\Http\Controllers\User\Client\ClientInfoController;
+use App\Http\Controllers\User\Client\ClientPartnersController;
+use App\Http\Controllers\User\Client\ClientTransactionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
@@ -95,6 +97,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('/get', [ClientInfoController::class, 'index']);
             Route::post('/update', [ClientInfoController::class, 'updateProfile']);
             Route::post('/delete-avatar', [ClientInfoController::class, 'deleteAvatar']);
+        });
+        Route::prefix('partners')->group(function (){
+            Route::get('/show-partners', [ClientPartnersController::class, 'showPartners']);
+            Route::get('/get-full-info', [ClientPartnersController::class, 'getFullInfo']);
+            Route::get('/get-activation-bonus-date', [ClientPartnersController::class, 'getActivationBonusDate']);
+        });
+        Route::prefix('transactions')->group(function (){
+            Route::get('/get', [ClientTransactionsController::class, 'index']);
         });
     });
 

@@ -16,4 +16,7 @@ interface BusinessClientWrittenOffTransactionRepositoryInterface extends Eloquen
             $to
     ): int;
 
+
+    public function getClientTotalWrittenOffBonus($client_id): int;
+
 }

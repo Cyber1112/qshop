@@ -40,7 +40,7 @@ class CategoryController extends Controller
     }
 
     public function getBusinessesByCategories(Request $request, $category_id){
-        
+
     }
 
 

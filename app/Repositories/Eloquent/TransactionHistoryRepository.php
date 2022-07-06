@@ -61,4 +61,21 @@ class TransactionHistoryRepository extends BaseRepository implements Transaction
             ->where('business_id', $business_id)
             ->get();
     }
+
+    public function getTotalTransactionsByClient(int $client_id): int
+    {
+        return $this->model
+            ->query()
+            ->where('client_id', $client_id)
+            ->count();
+    }
+
+    public function getClientPartners(int $client_id, array $columns = ['*']): Collection
+    {
+        return $this->model
+            ->query()
+            ->select($columns)
+            ->where('client_id', $client_id)
+            ->get();
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 
 use App\Models\Business;
+use Illuminate\Database\Eloquent\Collection;
 
 interface BusinessRepositoryInterface extends EloquentRepositoryInterface{
 
@@ -42,8 +43,5 @@ interface BusinessRepositoryInterface extends EloquentRepositoryInterface{
         int $business_id,
         int $purchase_amount
     ): ?int;
-
-
-
 
 }

@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Business;
 use App\Repositories\BusinessRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class BusinessRepository extends BaseRepository implements BusinessRepositoryInterface{
 
@@ -60,4 +61,5 @@ class BusinessRepository extends BaseRepository implements BusinessRepositoryInt
             ->where('id', $business_id)
             ->increment('balance', $purchase_amount);
     }
+
 }

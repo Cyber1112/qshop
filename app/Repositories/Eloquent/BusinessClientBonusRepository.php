@@ -35,7 +35,6 @@ class BusinessClientBonusRepository extends BaseRepository implements BusinessCl
                 ->select($columns)
                 ->where('client_id', $client_id)
                 ->where('business_id', $business_id)
-                ->where('status', 'not_used')
                 ->where('activation_bonus_date', '<', now()->toDateTimeString())
                 ->orderByRaw('ISNULL(deactivation_bonus_date), deactivation_bonus_date ASC')
                 ->with($relations)
@@ -56,7 +55,6 @@ class BusinessClientBonusRepository extends BaseRepository implements BusinessCl
     public function updateClientUnusedBonus(
         int $business_client_bonus_id,
         int $balance,
-        string $status,
         array $columns = ['*'],
         array $relations = [],
         array $relations_count = []
@@ -67,8 +65,7 @@ class BusinessClientBonusRepository extends BaseRepository implements BusinessCl
             ->select($columns)
             ->where('id', $business_client_bonus_id)
             ->update([
-                'balance' => $balance,
-                'status' => $status
+                'balance' => $balance
             ]);
     }
 
@@ -85,7 +82,6 @@ class BusinessClientBonusRepository extends BaseRepository implements BusinessCl
             ->query()
             ->select($columns)
             ->where('client_id', $client_id)
-            ->where('status', 'not_used')
             ->join('businesses', 'businesses.id', '=', 'business_id')
             ->get();
     }
@@ -99,7 +95,6 @@ class BusinessClientBonusRepository extends BaseRepository implements BusinessCl
         return $this->model
             ->query()
             ->where('client_id', $client_id)
-            ->where('status', 'not_used')
             ->where('activation_bonus_date', '<', now()->toDateTimeString())
             ->sum('balance');
     }
@@ -111,5 +106,23 @@ class BusinessClientBonusRepository extends BaseRepository implements BusinessCl
             ->where('client_id', $client_id)
             ->where('activation_bonus_date', '>', now()->toDateTimeString())
             ->count();
+    }
+
+    public function deleteClientBonus(int $id): ?bool
+    {
+        return $this->model
+            ->query()
+            ->where('id', $id)
+            ->delete();
+    }
+
+    public function getClientActivatedBonus(int $client_id, array $columns = ['*']): Collection
+    {
+        return $this->model
+            ->query()
+            ->select($columns)
+            ->where('client_id', $client_id)
+            ->where('activation_bonus_date', '<', now()->toDateTimeString())
+            ->get();
     }
 }

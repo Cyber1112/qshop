@@ -11,7 +11,7 @@ class BusinessSchedule extends Model
     use HasFactory;
 
     protected $fillable = [
-        'working_day',
+        'work_schedule',
         'work_start',
         'work_end',
         'business_id'

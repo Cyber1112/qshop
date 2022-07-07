@@ -13,7 +13,7 @@ class DeleteTask{
         $this->business_schedule_repository = $business_schedule_repository;
     }
 
-    public function run(string $business_id){
+    public function run(int $business_id){
         $this->business_schedule_repository->deleteByBusinessId($business_id);
     }
 

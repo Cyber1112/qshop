@@ -26,7 +26,6 @@ interface BusinessClientBonusRepositoryInterface extends EloquentRepositoryInter
     /**
      * @param int $business_client_bonus_id
      * @param int $balance
-     * @param string $status
      * @param array $columns
      * @param array $relations
      * @param array $relations_count
@@ -35,7 +34,6 @@ interface BusinessClientBonusRepositoryInterface extends EloquentRepositoryInter
     public function updateClientUnusedBonus(
         int $business_client_bonus_id,
         int $balance,
-        string $status,
         array $columns = ['*'],
         array $relations = [],
         array $relations_count = []
@@ -70,6 +68,20 @@ interface BusinessClientBonusRepositoryInterface extends EloquentRepositoryInter
     public function getClientUnActivatedBonus(
         int $client_id
     ): int;
+
+    /**
+     * @param int $id
+     * @return bool|null
+     */
+    public function deleteClientBonus(
+        int $id
+    ): ?bool;
+
+
+    public function getClientActivatedBonus(
+        int $client_id,
+        array $columns = ['*']
+    ): Collection;
 
 
 

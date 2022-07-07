@@ -15,7 +15,7 @@ class ClientInfoController extends Controller
 {
 
     public function index(Request $request){
-        return Resources\User\Client\Account\ProfileResources::collection(User::find(Auth::user()));
+        return new Resources\User\Client\Account\ProfileResources(User::find(Auth::user())[0]);
     }
 
     public function updateProfile(Request $request): Response

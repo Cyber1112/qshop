@@ -104,6 +104,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('/show-partners', [ClientPartnersController::class, 'showPartners']);
             Route::get('/get-full-info', [ClientPartnersController::class, 'getFullInfo']);
             Route::get('/get-activation-bonus-date', [ClientPartnersController::class, 'getActivationBonusDate']);
+            Route::get('/show-business-description/{business}', [ClientBusinessCategoryController::class, 'showBusinessAbout']);
         });
         Route::prefix('transactions')->group(function (){
             Route::get('/get', [ClientTransactionsController::class, 'index']);

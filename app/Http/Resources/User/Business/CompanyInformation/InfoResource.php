@@ -15,14 +15,19 @@ class InfoResource extends JsonResource
     {
         /** @var Business $this */
         return [
-            'contacts' => $this->contact,
-            'city' => $this->city,
-            'description' => $this->description,
-            'categories' => $this->category,
-            'schedule' => $this->schedule,
-            'employees' => $this->employee,
-            'bonus_options' => $this->bonus,
-            'transaction_history' => $this->transactions
+            'contacts' => [
+                'address' => $this->contact->address,
+                'phone_number' => $this->contact->phone_number,
+                'site_location' => $this->contact->site_location
+            ],
+            'city' => $this->city[0]->city,
+            'description' => $this->description->description,
+            'categories' => $this->category->pluck('category_name')->toArray(),
+            'schedule' => [
+                'work_schedule' => $this->schedule->work_schedule,
+                'work_start' => $this->schedule->work_start,
+                'work_end' => $this->schedule->work_end,
+            ]
         ];
     }
 }

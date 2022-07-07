@@ -49,7 +49,7 @@ class PermissionsSeeder extends Seeder
 //        User::find(7)->assignRole('employee');
 //        User::find(7)->givePermissionTo(['edit profile']);
 //        User::find(1)->assignRole('business');
-        User::find(2)->assignRole('client');
+        User::find(3)->assignRole('business');
 
     }
 }

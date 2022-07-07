@@ -18,29 +18,23 @@ class CreateAction implements BusinessSchedule{
 
     public function execute($request): void
     {
-        $this->delete($this->user);
+        $this->delete();
 
-        $counter = 0;
+        app(Tasks\BusinessSchedule\CreateTask::class)->run(
+            [
+                'work_schedule' => $request["work_schedule"],
+                'work_start' => $request["work_start"],
+                'work_end' => $request["work_end"],
+                "business_id" => $this->user
+            ]
+        );
 
-        foreach ($request->get('schedules') as $req){
-            $data[] = $req;
-            app(Tasks\BusinessSchedule\CreateTask::class)->run(
-                [
-                    'working_day' => $data[$counter]["working_day"],
-                    'work_start' => $data[$counter]["work_start"],
-                    'work_end' => $data[$counter]["work_end"],
-                    "business_id" => $this->user
-                ]
-            );
-
-            $counter += 1;
-        }
     }
 
-    public function delete($business_id): void
+    public function delete(): void
     {
         app(Tasks\BusinessSchedule\DeleteTask::class)->run(
-            $business_id
+            $this->user
         );
     }
 }

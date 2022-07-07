@@ -33,11 +33,13 @@ class GetAction implements GetAccruedAndWrittenOffTransactions{
             $from,
             $to,
             ['businesses.business_name', 'transaction_histories.purchase_amount',
-                'transaction_histories.bonus_amount', 'transaction_histories.created_at']
+                'transaction_histories.bonus_amount', 'transaction_histories.created_at',
+                'transaction_histories.id']
         );
         $new_collection = collect();
         $data->map(function($item, $key) use ($new_collection){
             $new_collection->push([
+                'id' => $item['id'],
                 'business_name' => $item['business_name'],
                 'bonus' => (int) (( $item['purchase_amount'] * $item['bonus_amount'])/100),
                 'created_at' => date('Y-m-d', strtotime($item['created_at']))
@@ -54,11 +56,12 @@ class GetAction implements GetAccruedAndWrittenOffTransactions{
             $from,
             $to,
             ['businesses.business_name', 'business_client_wrote_off_transactions.written_off_bonus',
-                'business_client_wrote_off_transactions.created_at']
+                'business_client_wrote_off_transactions.created_at', 'business_client_wrote_off_transactions.id']
         );
         $new_collection = collect();
         $data->map(function($item, $key) use ($new_collection){
             $new_collection->push([
+                'id' => $item['id'],
                 'business_name' => $item['business_name'],
                 'written_off_bonus' => $item['written_off_bonus'],
                 'created_at' => date('Y-m-d', strtotime($item['created_at']))

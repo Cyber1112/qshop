@@ -4,7 +4,7 @@ namespace App\Tasks\BusinessClientBonus;
 
 use App\Repositories\BusinessClientBonusRepositoryInterface;
 
-class UpdateTask{
+class DeleteClientBonusTask{
 
     private BusinessClientBonusRepositoryInterface $bonus_repository;
 
@@ -13,8 +13,8 @@ class UpdateTask{
         $this->bonus_repository = $bonus_repository;
     }
 
-    public function run(int $business_client_bonus_id, int $balance){
-        return $this->bonus_repository->updateClientUnusedBonus($business_client_bonus_id, $balance);
+    public function run(int $id){
+        return $this->bonus_repository->deleteClientBonus($id);
     }
 
 }

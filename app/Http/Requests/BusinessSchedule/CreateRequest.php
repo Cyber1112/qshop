@@ -24,9 +24,9 @@ class CreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'schedules.*.working_day' => ['required', 'string'],
-            'schedules.*.work_start' => ['required'],
-            'schedules.*.work_end' => ['required']
+            'work_schedule' => ['required', 'string'],
+            'work_start' => ['required'],
+            'work_end' => ['required']
         ];
     }
 }

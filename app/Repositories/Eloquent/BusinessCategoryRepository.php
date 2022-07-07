@@ -24,6 +24,7 @@ class BusinessCategoryRepository extends BaseRepository implements BusinessCateg
             ->select($columns)
             ->where('category_id', $category_id)
             ->join('businesses', 'businesses.id', '=', 'business_id')
+            ->join('business_bonus_options', 'business_bonus_options.business_id', '=', 'businesses.id')
             ->get();
 
     }

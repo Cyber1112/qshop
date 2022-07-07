@@ -20,26 +20,64 @@ class GetAction implements GetClientBusinessCategory{
     public function execute(int $category_id): Collection
     {
 
-//        return $this->bonusOptions($this->getBusinessIdByCategory($category_id));
-        return $this->getBusinessIdByCategory($category_id);
+        return $this->joinTwoTables(
+            $this->getBusinessIdByCategory($category_id),
+            $this->getClientBusinessesBonus()
+        );
+
     }
 
     public function getBusinessIdByCategory(int $category_id){
-        return app(Tasks\BusinessCategory\GetBusinessByCategoryTask::class)->run(
+        $data = app(Tasks\BusinessCategory\GetBusinessByCategoryTask::class)->run(
             $category_id,
-            ['businesses.id']
+            ['businesses.id as business_id', 'businesses.business_name', 'business_bonus_options.bonus_amount']
         );
+
+        return $data->mapWithKeys(function($item, $key){
+            return [
+                $item['business_id'] => [
+                    'business_name' => $item->business_name,
+                    'bonus_amount' => $item->bonus_amount
+                ]
+            ];
+        });
     }
 
-    public function bonusOptions($businesses){
+    public function getClientBusinessesBonus(){
+        $data = app(Tasks\BusinessClientBonus\GetClientActivatedBonusTask::class)->run(
+            $this->user,
+            ['business_id', 'balance']
+        );
+
+        return $data->groupBy('business_id')->map(function ($row){
+            return [
+                "balance" => $row->sum('balance')
+            ];
+        });
+    }
+
+    public function joinTwoTables($category, $bonus): Collection
+    {
         $data = collect();
-        $business_options = app(Tasks\Business\GetBusinessBonusOptions::class)->run([
-            'business_bonus_options.bonus_amount',
-            'businesses.id',
-            'businesses.business_name'
-        ]);
 
-        return $business_options;
+
+        foreach ($category->keys() as $key){
+            if ($bonus->has($key)){
+                $data->push([
+                    'business_id' => $key,
+                    'business_name' => $category[$key]['business_name'],
+                    'balance' => $bonus[$key]['balance']
+                ]);
+            }else{
+                $data->push([
+                    'business_id' => $key,
+                    'business_name' => $category[$key]['business_name'],
+                    'bonus_amount' => $category[$key]['bonus_amount']
+                ]);
+            }
+        }
+        return $data;
 
     }
+
 }

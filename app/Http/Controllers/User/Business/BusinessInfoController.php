@@ -14,9 +14,7 @@ class BusinessInfoController extends Controller
 {
     public function index(Request $request){
         $business = app(Helpers\DefineUserRole::class)->defineRole(Auth::user());
-        return Resources\User\Business\CompanyInformation\InfoResource::collection([Business::find($business)]);
+        return new Resources\User\Business\CompanyInformation\InfoResource(Business::find($business));
     }
-
-
 
 }

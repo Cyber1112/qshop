@@ -16,19 +16,8 @@ class BusinessClientBonusController extends Controller
 
     public function writeOffTransaction(Request $request){
 
-        $clientExist = app(Tasks\User\FindByPhoneTask::class)->run($request->phone_number)->id;
-
-        if (!$clientExist){
-            return response()->json(['message' => "The user with number $request->phone_number is not found" ], 404);
-        }
-
-        $client_id = app(Tasks\Client\FindTask::class)->run($clientExist)->id;
-
-
-        $data = app(Contracts\GetBusinessClientBonus::class)->execute($client_id);
-
         app(Contracts\WriteOffBonusFromClient::class)->execute(
-            $data, $request->bonus_amount
+            $request->phone_number, $request->bonus_amount
         );
         return response()->noContent();
     }

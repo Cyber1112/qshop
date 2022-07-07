@@ -40,10 +40,12 @@ class CreateAction implements Transaction{
             $this->business_id,
             $this->setBonusAmount($dto->bonus_amount, $dto->purchase_amount),
             $this->setDate($bonus_option['activation_bonus_period']),
-            $this->setDeactivationDate($bonus_option)
+            $this->setDeactivationDate($bonus_option),
+            $dto->comment
         );
 
         $this->addToTransactionHistory($dto, $this->business_id, $client_id);
+
 
     }
 
@@ -63,15 +65,22 @@ class CreateAction implements Transaction{
         return $bonus_option['deactivation_bonus_period'] == null ? null : $this->setDate($bonus_option['deactivation_bonus_period'] + $bonus_option['activation_bonus_period']);
     }
 
-    public function sendBonusToClient($client_id, $business_id, $bonus_amount, $activation_date, $deactivation_date = null){
+    public function sendBonusToClient($client_id, $business_id, $bonus_amount, $activation_date, $deactivation_date = null, $comment = null){
 
-        app(Tasks\BusinessClientBonus\CreateTask::class)->run([
+        $business_client_bonus = app(Tasks\BusinessClientBonus\CreateTask::class)->run([
             'client_id' => $client_id,
             'business_id' => $business_id,
             'balance' => $bonus_amount,
             'activation_bonus_date' => $activation_date,
             'deactivation_bonus_date' => $deactivation_date
         ]);
+
+        if($comment){
+            app(Tasks\TransactionComments\CreateTask::class)->run([
+                'comment' => $comment,
+                'transaction_history_id' => $business_client_bonus->id
+            ]);
+        }
 
     }
 
@@ -89,7 +98,9 @@ class CreateAction implements Transaction{
     }
 
 
-    public function setComment(){}
+    public function setComment($comment){
+
+    }
 
     public function writeOffMoneyFromBusiness($business_id, $purchase_amount){
         app(Tasks\Business\WriteOffMoneyTask::class)->run($business_id, $purchase_amount);
